@@ -29,7 +29,7 @@ After installation, you can use this module in your project. For example:
 import {Indicator} from 'stix2';
 
 // Example of creating a STIX 2.0 object
-const indicator = new Stix2.Indicator({
+const indicator = new Indicator({
     name: "Example Indicator",
     pattern: "[ipv4-addr:value = '192.168.1.1']",
     pattern_type: "stix"
