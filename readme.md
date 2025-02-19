@@ -51,7 +51,8 @@ This project is released under the [MIT](LICENSE) license.
 
 ### Full Example
 ```
-import { Malware,AttackPattern,IntrusionSet,Vulnerability,Indicator,ObservedData,ThreatActor,Sighting,Bundle } from 'stix2';
+import { Malware, AttackPattern, IntrusionSet, Vulnerability, Indicator,
+      ObservedData, ThreatActor, Sighting, Bundle } from 'stix2';
 let malware = new Malware({
     name: "WannaCry",
     is_family: true,
