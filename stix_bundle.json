@@ -1,0 +1,143 @@
+{
+  "type": "bundle",
+  "id": "bundle--4f8f5ae8-cfc8-4717-a330-77d501055427",
+  "spec_version": "2.1",
+  "objects": [
+    {
+      "type": "intrusion-set",
+      "id": "intrusion-set--af44916e-113d-47c5-bc19-708af09f4eaa",
+      "spec_version": "2.1",
+      "created": "2025-02-18T17:50:38.397Z",
+      "modified": "2025-02-18T17:50:38.397Z",
+      "name": "APT28",
+      "description": "A Russian cyber espionage group.",
+      "aliases": [
+        "Fancy Bear",
+        "Sofacy"
+      ],
+      "goals": [
+        "Intelligence gathering",
+        "Disrupt Western targets"
+      ]
+    },
+    {
+      "type": "vulnerability",
+      "id": "vulnerability--c3350a64-8253-463a-bba8-a7f5c5efe470",
+      "spec_version": "2.1",
+      "created": "2025-02-18T17:50:38.399Z",
+      "modified": "2025-02-18T17:50:38.399Z",
+      "name": "CVE-2021-12345",
+      "description": "Remote code execution vulnerability in XYZ software.",
+      "cvss_score": 9.8,
+      "source": "https://cve.mitre.org"
+    },
+    {
+      "type": "indicator",
+      "id": "indicator--66313cd2-1f61-42b1-9eb0-0bbd1510f8bb",
+      "spec_version": "2.1",
+      "created": "2025-02-18T17:50:38.400Z",
+      "modified": "2025-02-18T17:50:38.400Z",
+      "pattern": "[file:hashes.'SHA-256' = 'c3d1af78c8fa1bd0a2768b9294b3d60b8d3b800fda2fbfe531f0c2e3f1c15e33']",
+      "pattern_type": "stix",
+      "valid_from": "2025-02-18T00:00:00Z",
+      "labels": [
+        "malicious",
+        "file"
+      ],
+      "description": "Indicator for a specific malware hash."
+    },
+    {
+      "type": "observed-data",
+      "id": "observed-data--4bc336f0-64fa-47ef-ac5e-74a595ffa565",
+      "spec_version": "2.1",
+      "created": "2025-02-18T17:50:38.402Z",
+      "modified": "2025-02-18T17:50:38.402Z",
+      "first_observed": "2025-02-18T00:00:00Z",
+      "last_observed": "2025-02-18T00:00:00Z",
+      "number_observed": 3,
+      "objects": [
+        {
+          "file": {
+            "name": "malware.exe",
+            "size": 1024
+          }
+        },
+        {
+          "ip": {
+            "address": "192.168.1.1"
+          }
+        }
+      ]
+    },
+    {
+      "type": "malware",
+      "id": "malware--b3773b22-dee6-4ba4-9b3f-8b3a50524d24",
+      "spec_version": "2.1",
+      "created": "2025-02-18T17:50:38.392Z",
+      "modified": "2025-02-18T17:50:38.392Z",
+      "name": "WannaCry",
+      "is_family": true,
+      "description": "A ransomware that encrypts files and demands payment."
+    },
+    {
+      "type": "attack-pattern",
+      "id": "attack-pattern--57d64429-0b18-4c46-a7bc-0c4dce8574b8",
+      "spec_version": "2.1",
+      "created": "2025-02-18T17:50:38.395Z",
+      "modified": "2025-02-18T17:50:38.395Z",
+      "name": "Spear Phishing",
+      "description": "An attack method that uses deceptive emails to gain unauthorized access.",
+      "kill_chain_phases": [
+        {
+          "phase_name": "delivery",
+          "kill_chain_name": "cyber-attack"
+        },
+        {
+          "phase_name": "exploitation",
+          "kill_chain_name": "cyber-attack"
+        }
+      ]
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--2e0fabf2-c16c-4abc-8fc2-089aad4e53cd",
+      "spec_version": "2.1",
+      "created": "2025-02-18T17:50:38.396Z",
+      "modified": "2025-02-18T17:50:38.396Z",
+      "relationship_type": "uses",
+      "source_ref": "malware--b3773b22-dee6-4ba4-9b3f-8b3a50524d24",
+      "target_ref": "attack-pattern--57d64429-0b18-4c46-a7bc-0c4dce8574b8"
+    },
+    {
+      "type": "threat-actor",
+      "id": "threat-actor--d47b7657-3270-4328-9dbc-9c525df24e46",
+      "spec_version": "2.1",
+      "created": "2025-02-18T17:50:38.404Z",
+      "modified": "2025-02-18T17:50:38.404Z",
+      "name": "APT28",
+      "description": "A cyber espionage group associated with Russian government",
+      "aliases": [
+        "Fancy Bear",
+        "Sofacy"
+      ],
+      "roles": [
+        "espionage",
+        "cyberwarfare"
+      ],
+      "sophistication": "high",
+      "resource_level": "high",
+      "primary_motivation": "political"
+    },
+    {
+      "type": "sighting",
+      "id": "sighting--668aca03-cdc8-496c-a1a6-de6cb9638be0",
+      "spec_version": "2.1",
+      "created": "2025-02-18T17:50:38.405Z",
+      "modified": "2025-02-18T17:50:38.405Z",
+      "sighting_of_ref": "threat-actor--d47b7657-3270-4328-9dbc-9c525df24e46",
+      "first_seen": "2025-02-01T00:00:00Z",
+      "last_seen": "2025-02-10T00:00:00Z",
+      "count": 5
+    }
+  ]
+}
