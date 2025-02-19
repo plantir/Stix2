@@ -1,5 +1,4 @@
 import { v4 as uuidv4 } from "uuid";
-import { writeFileSync, readFileSync } from "fs";
 import { z } from "zod";
 
 interface StixObjectProperties {
@@ -30,9 +29,9 @@ class StixObject {
     });
   }
 
-  
   toJSON(): any {
-    const { type, id, spec_version, created, modified, ...otherProperties } = this;
+    const { type, id, spec_version, created, modified, ...otherProperties } =
+      this;
     return {
       type,
       id,
@@ -52,7 +51,9 @@ class Malware extends StixObject {
       description: z.string().optional(),
       aliases: z.array(z.string()).optional(),
       kill_chain_phases: z
-        .array(z.object({ phase_name: z.string(), kill_chain_name: z.string() }))
+        .array(
+          z.object({ phase_name: z.string(), kill_chain_name: z.string() })
+        )
         .optional(),
     });
     malwareSchema.parse(properties);
@@ -63,7 +64,7 @@ class Malware extends StixObject {
 class AttackPattern extends StixObject {
   constructor(properties: StixObjectProperties) {
     const attackPatternSchema = z.object({
-      name: z.string(), 
+      name: z.string(),
       description: z.string().optional(),
       kill_chain_phases: z
         .array(
@@ -75,11 +76,10 @@ class AttackPattern extends StixObject {
         .optional(),
     });
 
-    attackPatternSchema.parse(properties);    
+    attackPatternSchema.parse(properties);
     super("attack-pattern", properties);
   }
 }
-
 
 class IntrusionSet extends StixObject {
   constructor(properties: StixObjectProperties) {
@@ -89,7 +89,7 @@ class IntrusionSet extends StixObject {
       aliases: z.array(z.string()).optional(),
       goals: z.array(z.string()).optional(),
     });
-    
+
     intrusionSetSchema.parse(properties);
     super("intrusion-set", properties);
   }
@@ -108,7 +108,7 @@ class ThreatActor extends StixObject {
       secondary_motivations: z.array(z.string()).optional(),
     });
 
-    threatActorSchema.parse(properties); 
+    threatActorSchema.parse(properties);
     super("threat-actor", properties);
   }
 }
@@ -127,7 +127,6 @@ class Sighting extends StixObject {
     super("sighting", properties);
   }
 }
-
 
 class Vulnerability extends StixObject {
   constructor(properties: StixObjectProperties) {
@@ -152,7 +151,7 @@ class Indicator extends StixObject {
       labels: z.array(z.string()).optional(),
       description: z.string().optional(),
     });
-    indicatorSchema.parse(properties); 
+    indicatorSchema.parse(properties);
     super("indicator", properties);
   }
 }
@@ -179,11 +178,10 @@ class Relationship extends StixObject {
       description: z.string().optional(),
     });
 
-    relationshipSchema.parse(properties);    
+    relationshipSchema.parse(properties);
     super("relationship", properties);
   }
 }
-
 
 class Bundle {
   type: string = "bundle";
@@ -205,10 +203,6 @@ class Bundle {
     });
   }
 
-  logBundle() {
-    console.log(this.toJSON());
-  }
-
   findObjectById(id: string): StixObject | undefined {
     return this.objects.find((obj) => obj.id === id);
   }
@@ -225,40 +219,6 @@ class Bundle {
       objects: this.objects.map((obj) => obj.toJSON()),
     };
   }
-
-  saveToFile(filename: string): void {
-    writeFileSync(filename, JSON.stringify(this.toJSON(), null, 2), "utf-8");
-  }
-
-  static loadFromFile(filename: string): Bundle {
-    const data = JSON.parse(readFileSync(filename, "utf-8"));
-    const objects = data.objects.map((obj: any) => {
-      switch (obj.type) {
-        case "malware":
-          return new Malware(obj);
-        case "attack-pattern":
-          return new AttackPattern(obj);
-        case "intrusion-set":
-          return new IntrusionSet(obj);
-        case "threat-actor":
-          return new ThreatActor(obj);
-        case "sighting":
-          return new Sighting(obj);
-        case "vulnerability":
-          return new Vulnerability(obj);
-        case "indicator":
-          return new Indicator(obj);
-        case "observed-data":
-          return new ObservedData(obj);
-        case "relationship":
-          return new Relationship(obj);
-        default:
-          throw new Error(`Unsupported STIX object type: ${obj.type}`);
-      }
-    });
-
-    return new Bundle(objects);
-  }
 }
 
 //examples-------------------------------------------------
@@ -270,7 +230,8 @@ let malware = new Malware({
 });
 const attackPattern = new AttackPattern({
   name: "Spear Phishing",
-  description: "An attack method that uses deceptive emails to gain unauthorized access.",
+  description:
+    "An attack method that uses deceptive emails to gain unauthorized access.",
   kill_chain_phases: [
     { phase_name: "delivery", kill_chain_name: "cyber-attack" },
     { phase_name: "exploitation", kill_chain_name: "cyber-attack" },
@@ -292,7 +253,8 @@ let vulnerability = new Vulnerability({
 });
 
 let indicator = new Indicator({
-  pattern: "[file:hashes.'SHA-256' = 'c3d1af78c8fa1bd0a2768b9294b3d60b8d3b800fda2fbfe531f0c2e3f1c15e33']",
+  pattern:
+    "[file:hashes.'SHA-256' = 'c3d1af78c8fa1bd0a2768b9294b3d60b8d3b800fda2fbfe531f0c2e3f1c15e33']",
   pattern_type: "stix",
   valid_from: "2025-02-18T00:00:00Z",
   labels: ["malicious", "file"],
@@ -326,9 +288,16 @@ let sighting = new Sighting({
   count: 5,
 });
 
-let bundle = new Bundle([intrusionSet, vulnerability, indicator, observedData, malware, attackPattern, relationship, threatActor, sighting]);
+let bundle = new Bundle([
+  intrusionSet,
+  vulnerability,
+  indicator,
+  observedData,
+  malware,
+  attackPattern,
+  relationship,
+  threatActor,
+  sighting,
+]);
 
-bundle.saveToFile("stix_bundle.json");
-
-const loadedBundle = Bundle.loadFromFile("stix_bundle.json");
-console.log(loadedBundle);
+console.log(bundle.toJSON());
