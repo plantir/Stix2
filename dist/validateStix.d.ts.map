@@ -1,0 +1,1 @@
+{"version":3,"file":"validateStix.d.ts","sourceRoot":"","sources":["../src/validateStix.ts"],"names":[],"mappings":"AAAA,OAAY,EAAE,WAAW,EAAE,MAAM,KAAK,CAAC;AAOvC,KAAK,iBAAiB,GAAG,MAAM,CAAC,MAAM,EAAE,GAAG,CAAC,CAAC;AAE7C,wBAAgB,kBAAkB,CAChC,UAAU,EAAE,GAAG,EACf,SAAS,EAAE,MAAM,iBAAiB,GACjC;IAAE,MAAM,CAAC,EAAE,WAAW,EAAE,CAAA;CAAE,CAiB5B"}
