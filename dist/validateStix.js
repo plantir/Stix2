@@ -1,6 +1,8 @@
 import Ajv from "ajv";
 import addFormats from "ajv-formats";
-import stixSchema from './stix-schema.json' assert { type: 'json' };
+import { createRequire } from "module";
+const require = createRequire(import.meta.url);
+const stixSchema = require("./stix-schema.json");
 const ajv = new Ajv({ allErrors: true });
 addFormats(ajv);
 export function validateStixObject(stixObject, schemaKey) {
@@ -13,7 +15,14 @@ export function validateStixObject(stixObject, schemaKey) {
     }
     const validate = ajv.compile(schema);
     const valid = validate(stixObject);
-    return {
-        errors: valid ? [] : validate.errors,
-    };
+    if (valid) {
+        return { errors: [] };
+    }
+    else {
+        const formattedErrors = validate.errors?.map(error => ({
+            ...error,
+            message: `[${schemaKey}] ${error.message}`,
+        }));
+        return { errors: formattedErrors };
+    }
 }

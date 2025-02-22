@@ -37,52 +37,112 @@ class StixObject {
         };
     }
 }
-class Malware extends StixObject {
+export class Malware extends StixObject {
     constructor(properties) {
         super("malware", properties);
     }
 }
-class AttackPattern extends StixObject {
+export class AttackPattern extends StixObject {
     constructor(properties) {
         super("attack-pattern", properties);
     }
 }
-class IntrusionSet extends StixObject {
+export class IntrusionSet extends StixObject {
     constructor(properties) {
         super("intrusion-set", properties);
     }
 }
-class ThreatActor extends StixObject {
+export class ThreatActor extends StixObject {
     constructor(properties) {
         super("threat-actor", properties);
     }
 }
-class Sighting extends StixObject {
+export class Sighting extends StixObject {
     constructor(properties) {
         super("sighting", properties);
     }
 }
-class Vulnerability extends StixObject {
+export class Vulnerability extends StixObject {
     constructor(properties) {
         super("vulnerability", properties);
     }
 }
-class Indicator extends StixObject {
+export class Indicator extends StixObject {
     constructor(properties) {
         super("indicator", properties);
     }
 }
-class ObservedData extends StixObject {
+export class ObservedData extends StixObject {
     constructor(properties) {
         super("observed-data", properties);
     }
 }
-class Relationship extends StixObject {
+export class Relationship extends StixObject {
     constructor(properties) {
         super("relationship", properties);
     }
 }
-class Bundle {
+export class Campaign extends StixObject {
+    constructor(properties) {
+        super("campaign", properties);
+    }
+}
+export class CourseOfAction extends StixObject {
+    constructor(properties) {
+        super("course-of-action", properties);
+    }
+}
+export class Grouping extends StixObject {
+    constructor(properties) {
+        super("grouping", properties);
+    }
+}
+export class Identity extends StixObject {
+    constructor(properties) {
+        super("identity", properties);
+    }
+}
+export class Incident extends StixObject {
+    constructor(properties) {
+        super("incident", properties);
+    }
+}
+export class Infrastructure extends StixObject {
+    constructor(properties) {
+        super("infrastructure", properties);
+    }
+}
+export class Location extends StixObject {
+    constructor(properties) {
+        super("location", properties);
+    }
+}
+export class MalwareAnalysis extends StixObject {
+    constructor(properties) {
+        super("malware-analysis", properties);
+    }
+}
+export class Note extends StixObject {
+    constructor(properties) {
+        super("note", properties);
+    }
+}
+export class Opinion extends StixObject {
+    constructor(properties) {
+        super("opinion", properties);
+    }
+}
+export class Report extends StixObject {
+    constructor(properties) {
+        super("report", properties);
+    }
+}
+export class Tool extends StixObject {
+    constructor(properties) {
+        super("tool", properties);
+    }
+}
+export class Bundle {
     type = "bundle";
     id = `bundle--${uuidv4()}`;
     spec_version = "2.1";
@@ -112,73 +172,3 @@ class Bundle {
         };
     }
 }
-//examples-------------------------------------------------
-let malware = new Malware({
-    name: "WannaCry",
-    is_family: true,
-    description: "A ransomware that encrypts files and demands payment.",
-});
-const attackPattern = new AttackPattern({
-    name: "Spear Phishing",
-    description: "An attack method that uses deceptive emails to gain unauthorized access.",
-    kill_chain_phases: [
-        { phase_name: "delivery", kill_chain_name: "cyber-attack" },
-        { phase_name: "exploitation", kill_chain_name: "cyber-attack" },
-    ],
-});
-let relationship = malware.createRelationship("uses", attackPattern);
-let intrusionSet = new IntrusionSet({
-    name: "APT28",
-    description: "A Russian cyber espionage group.",
-    aliases: ["Fancy Bear", "Sofacy"],
-    goals: ["Intelligence gathering", "Disrupt Western targets"],
-});
-let vulnerability = new Vulnerability({
-    name: "CVE-2021-12345",
-    description: "Remote code execution vulnerability in XYZ software.",
-    cvss_score: 9.8,
-    source: "https://cve.mitre.org",
-});
-let indicator = new Indicator({
-    pattern: "[file:hashes.'SHA-256' = 'c3d1af78c8fa1bd0a2768b9294b3d60b8d3b800fda2fbfe531f0c2e3f1c15e33']",
-    pattern_type: "stix",
-    valid_from: "2025-02-18T00:00:00Z",
-    labels: ["malicious", "file"],
-    description: "Indicator for a specific malware hash.",
-});
-let observedData = new ObservedData({
-    first_observed: "2025-02-18T00:00:00Z",
-    last_observed: "2025-02-18T00:00:00Z",
-    number_observed: 3,
-    objects: [
-        { file: { name: "malware.exe", size: 1024 } },
-        { ip: { address: "192.168.1.1" } },
-    ],
-});
-let threatActor = new ThreatActor({
-    name: "actor",
-    description: "A cyber espionage group associated with Russian government",
-    aliases: ["Fancy Bear", "Sofacy"],
-    roles: ["espionage", "cyberwarfare"],
-    sophistication: "high",
-    resource_level: "high",
-    primary_motivation: "political",
-});
-let sighting = new Sighting({
-    sighting_of_ref: threatActor.id,
-    first_seen: "2025-02-01T00:00:00Z",
-    last_seen: "2025-02-10T00:00:00Z",
-    count: 5,
-});
-let bundle = new Bundle([
-    intrusionSet,
-    vulnerability,
-    indicator,
-    observedData,
-    malware,
-    attackPattern,
-    relationship,
-    threatActor,
-    sighting,
-]);
-console.log(bundle.toJSON());

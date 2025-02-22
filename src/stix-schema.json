@@ -12,72 +12,15 @@
       },
       "required": ["type", "id", "spec_version", "created", "modified"]
     },
-    "malware": {
+    "relationship": {
       "type": "object",
       "properties": {
-        "name": { "type": "string" },
-        "is_family": { "type": "boolean" },
-        "description": { "type": "string" },
-        "aliases": { "type": "array", "items": { "type": "string" } },
-        "kill_chain_phases": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "phase_name": { "type": "string" },
-              "kill_chain_name": { "type": "string" }
-            },
-            "required": ["phase_name", "kill_chain_name"]
-          }
-        }
+        "relationship_type": { "type": "string" },
+        "source_ref": { "type": "string" },
+        "target_ref": { "type": "string" },
+        "description": { "type": "string" }
       },
-      "required": ["name", "is_family"]
-    },
-    "attack-pattern": {
-      "type": "object",
-      "properties": {
-        "name": { "type": "string" },
-        "description": { "type": "string" },
-        "kill_chain_phases": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "phase_name": { "type": "string" },
-              "kill_chain_name": { "type": "string" }
-            },
-            "required": ["phase_name", "kill_chain_name"]
-          }
-        }
-      },
-      "required": ["name"]
-    },
-    "intrusion-set": {
-      "type": "object",
-      "properties": {
-        "name": { "type": "string" },
-        "description": { "type": "string" },
-        "aliases": { "type": "array", "items": { "type": "string" } },
-        "goals": { "type": "array", "items": { "type": "string" } }
-      },
-      "required": ["name"]
-    },
-    "threat-actor": {
-      "type": "object",
-      "properties": {
-        "name": { "type": "string" },
-        "description": { "type": "string" },
-        "aliases": { "type": "array", "items": { "type": "string" } },
-        "roles": { "type": "array", "items": { "type": "string" } },
-        "sophistication": { "type": "string" },
-        "resource_level": { "type": "string" },
-        "primary_motivation": { "type": "string" },
-        "secondary_motivations": {
-          "type": "array",
-          "items": { "type": "string" }
-        }
-      },
-      "required": ["name"]
+      "required": ["relationship_type", "source_ref", "target_ref"]
     },
     "sighting": {
       "type": "object",
@@ -93,34 +36,380 @@
       },
       "required": ["sighting_of_ref", "first_seen", "last_seen"]
     },
+    "malware": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name used to identify the Malware."
+        },
+        "is_family": {
+          "type": "boolean",
+          "description": "Whether the object represents a malware family (if true) or a malware instance (if false)."
+        },
+        "description": {
+          "type": "string",
+          "description": "Provides more context and details about the Malware object."
+        },
+        "aliases": {
+          "type": "array",
+          "description": "Alternative names used to identify this Malware or Malware family.",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        },
+        "first_seen": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The time that the malware instance or family was first seen."
+        },
+        "last_seen": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The time that the malware family or malware instance was last seen."
+        },
+        "operating_system_refs": {
+          "type": "array",
+          "description": "The operating systems that the malware family or malware instance is executable on.",
+          "items": {
+            "type": "string",
+            "pattern": "^software--[0-9a-fA-F-]+$"
+          },
+          "minItems": 1
+        },
+        "architecture_execution_envs": {
+          "type": "array",
+          "description": "The processor architectures (e.g., x86, ARM, etc.) that the malware instance or family is executable on.",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        },
+        "implementation_languages": {
+          "type": "array",
+          "description": "The programming language(s) used to implement the malware instance or family.",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        },
+        "capabilities": {
+          "type": "array",
+          "description": "Specifies any capabilities identified for the malware instance or family.",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        },
+        "sample_refs": {
+          "type": "array",
+          "description": "The sample_refs property specifies a list of identifiers of the SCO file or artifact objects associated with this malware instance(s) or family.",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        },
+        "malware_types": {
+          "type": "array",
+          "description": "The type of malware being described.",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        },
+        "kill_chain_phases": {
+          "type": "array",
+          "description": "The list of kill chain phases for which this Malware instance can be used.",
+          "items": {
+            "type": "object",
+            "properties": {
+              "phase_name": { "type": "string" },
+              "kill_chain_name": { "type": "string" }
+            },
+            "required": ["phase_name", "kill_chain_name"]
+          },
+          "minItems": 1
+        }
+      },
+      "required": ["name", "is_family"]
+    },
+    "attack-pattern": {
+      "type": "object",
+      "properties": {
+        "aliases": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Alternative names used to identify this Attack Pattern."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name used to identify the Attack Pattern."
+        },
+        "description": {
+          "type": "string",
+          "description": "A description that provides more details and context about the Attack Pattern, potentially including its purpose and its key characteristics."
+        },
+        "kill_chain_phases": {
+          "type": "array",
+          "description": "The list of kill chain phases for which this attack pattern is used.",
+          "items": {
+            "type": "object",
+            "properties": {
+              "phase_name": {
+                "type": "string",
+                "description": "The phase of the kill chain this attack pattern is associated with."
+              },
+              "kill_chain_name": {
+                "type": "string",
+                "description": "The name of the kill chain this phase belongs to."
+              }
+            },
+            "required": ["phase_name", "kill_chain_name"]
+          },
+          "minItems": 1
+        }
+      },
+      "required": ["name"]
+    },
+    "intrusion-set": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name used to identify the Intrusion Set."
+        },
+        "description": {
+          "type": "string",
+          "description": "Provides more context and details about the Intrusion Set object."
+        },
+        "aliases": {
+          "type": "array",
+          "description": "Alternative names used to identify this Intrusion Set.",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        },
+        "first_seen": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The time that this Intrusion Set was first observed."
+        },
+        "last_seen": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The time that this Intrusion Set was last observed."
+        },
+        "goals": {
+          "type": "array",
+          "description": "The high level goals of this Intrusion Set, namely, what are they trying to do.",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        },
+        "resource_level": {
+          "type": "string",
+          "description": "This defines the organizational level at which this Intrusion Set typically works. Open Vocab - attack-resource-level-ov"
+        },
+        "primary_motivation": {
+          "type": "string",
+          "description": "The primary reason, motivation, or purpose behind this Intrusion Set. Open Vocab - attack-motivation-ov"
+        },
+        "secondary_motivations": {
+          "type": "array",
+          "description": "The secondary reasons, motivations, or purposes behind this Intrusion Set. Open Vocab - attack-motivation-ov",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        }
+      },
+      "required": ["name"]
+    },
+    "threat-actor": {
+      "type": "object",
+      "properties": {
+        "threat_actor_types": {
+          "type": "array",
+          "description": "This field specifies the type of threat actor. Open Vocab - threat-actor-type-ov",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        },
+        "name": {
+          "type": "string",
+          "description": "A name used to identify this Threat Actor or Threat Actor group."
+        },
+        "description": {
+          "type": "string",
+          "description": "A description that provides more details and context about the Threat Actor."
+        },
+        "aliases": {
+          "type": "array",
+          "description": "A list of other names that this Threat Actor is believed to use.",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        },
+        "roles": {
+          "type": "array",
+          "description": "This is a list of roles the Threat Actor plays. Open Vocab - threat-actor-role-ov",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        },
+        "goals": {
+          "type": "array",
+          "description": "The high level goals of this Threat Actor, namely, what are they trying to do.",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        },
+        "first_seen": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The time that this Intrusion Set was first observed."
+        },
+        "last_seen": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The time that this Intrusion Set was last observed."
+        },
+        "sophistication": {
+          "type": "string",
+          "description": "The skill, specific knowledge, special training, or expertise a Threat Actor must have to perform the attack. Open Vocab - threat-actor-sophistication-ov"
+        },
+        "resource_level": {
+          "type": "string",
+          "description": "This defines the organizational level at which this Threat Actor typically works. Open Vocab - attack-resource-level-ov"
+        },
+        "primary_motivation": {
+          "type": "string",
+          "description": "The primary reason, motivation, or purpose behind this Threat Actor. Open Vocab - attack-motivation-ov"
+        },
+        "secondary_motivations": {
+          "type": "array",
+          "description": "The secondary reasons, motivations, or purposes behind this Threat Actor. Open Vocab - attack-motivation-ov",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        },
+        "personal_motivations": {
+          "type": "array",
+          "description": "The personal reasons, motivations, or purposes of the Threat Actor regardless of organizational goals. Open Vocab - attack-motivation-ov",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        }
+      },
+      "required": ["name"]
+    },
     "vulnerability": {
       "type": "object",
       "properties": {
-        "name": { "type": "string" },
-        "description": { "type": "string" },
-        "cvss_score": { "type": "number" },
-        "source": { "type": "string" }
+        "name": {
+          "type": "string",
+          "description": "The name used to identify the Vulnerability."
+        },
+        "description": {
+          "type": "string",
+          "description": "A description that provides more details and context about the Vulnerability."
+        }
       },
       "required": ["name"]
     },
     "indicator": {
       "type": "object",
       "properties": {
-        "pattern": { "type": "string" },
-        "pattern_type": { "type": "string" },
-        "valid_from": { "type": "string" },
-        "valid_until": { "type": "string" },
-        "labels": { "type": "array", "items": { "type": "string" } },
-        "description": { "type": "string" }
+        "indicator_types": {
+          "type": "array",
+          "description": "This field is an Open Vocabulary that specifies the type of indicator. Open vocab - indicator-type-ov",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        },
+        "name": {
+          "type": "string",
+          "description": "The name used to identify the Indicator."
+        },
+        "description": {
+          "type": "string",
+          "description": "A description that provides the recipient with context about this Indicator potentially including its purpose and its key characteristics."
+        },
+        "pattern": {
+          "type": "string",
+          "description": "The detection pattern for this indicator."
+        },
+        "pattern_type": {
+          "type": "string",
+          "description": "The type of pattern used in this indicator."
+        },
+        "pattern_version": {
+          "type": "string",
+          "description": "The version of the pattern that is used."
+        },
+        "valid_from": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The time from which this indicator should be considered valuable intelligence."
+        },
+        "valid_until": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The time at which this indicator should no longer be considered valuable intelligence."
+        },
+        "kill_chain_phases": {
+          "type": "array",
+          "description": "The list of kill chain phases for which this attack pattern is used.",
+          "items": {
+            "type": "object",
+            "properties": {
+              "phase_name": {
+                "type": "string",
+                "description": "The phase of the kill chain this attack pattern is associated with."
+              },
+              "kill_chain_name": {
+                "type": "string",
+                "description": "The name of the kill chain this phase belongs to."
+              }
+            },
+            "required": ["phase_name", "kill_chain_name"]
+          },
+          "minItems": 1
+        }
       },
       "required": ["pattern", "pattern_type", "valid_from"]
     },
     "observed-data": {
       "type": "object",
       "properties": {
-        "first_observed": { "type": "string" },
-        "last_observed": { "type": "string" },
-        "number_observed": { "type": "number" },
+        "first_observed": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The beginning of the time window that the data was observed during."
+        },
+        "last_observed": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The end of the time window that the data was observed during."
+        },
+        "number_observed": {
+          "type": "integer",
+          "description": "The number of times the data represented in the objects property was observed. This MUST be an integer between 1 and 999,999,999 inclusive.",
+          "minimum": 1,
+          "maximum": 999999999
+        },
         "objects": { "type": "array", "items": { "type": "object" } }
       },
       "required": [
@@ -130,15 +419,571 @@
         "objects"
       ]
     },
-    "relationship": {
+    "campaign": {
       "type": "object",
       "properties": {
-        "relationship_type": { "type": "string" },
-        "source_ref": { "type": "string" },
-        "target_ref": { "type": "string" },
-        "description": { "type": "string" }
+        "name": {
+          "type": "string",
+          "description": "The name used to identify the Campaign."
+        },
+        "description": {
+          "type": "string",
+          "description": "A description that provides more details and context about the Campaign, potentially including its purpose and its key characteristics."
+        },
+        "aliases": {
+          "type": "array",
+          "description": "Alternative names used to identify this campaign.",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        },
+        "first_seen": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The time that this Campaign was first seen."
+        },
+        "last_seen": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The time that this Campaign was last seen."
+        },
+        "objective": {
+          "type": "string",
+          "description": "This field defines the Campaign’s primary goal, objective, desired outcome, or intended effect."
+        }
       },
-      "required": ["relationship_type", "source_ref", "target_ref"]
+      "required": ["name"]
+    },
+    "course-of-action": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name used to identify the Course of Action."
+        },
+        "description": {
+          "type": "string",
+          "description": "A description that provides more details and context about this object, potentially including its purpose and its key characteristics."
+        }
+      },
+      "required": ["name"]
+    },
+    "grouping": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "A name used to identify the Grouping."
+        },
+        "description": {
+          "type": "string",
+          "description": "A description which provides more details and context about the Grouping, potentially including the purpose and key characteristics."
+        },
+        "context": {
+          "type": "string",
+          "description": "A short description of the particular context shared by the content referenced by the Grouping."
+        },
+        "object_refs": {
+          "type": "array",
+          "description": "The STIX Objects (SDOs and SROs) that are referred to by this Grouping.",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9-]+[a-z0-9]--[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$",
+            "description": "A valid STIX identifier following the format `object-type--UUIDv4`."
+          },
+          "minItems": 1
+        }
+      },
+      "required": ["context", "object_refs"]
+    },
+    "identity": {
+      "type": "object",
+      "properties": {
+        "roles": {
+          "type": "array",
+          "description": "The list of roles that this Identity performs (e.g., CEO, Domain Administrators, Doctors, Hospital, or Retailer). No open vocabulary is yet defined for this property.",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of this Identity."
+        },
+        "description": {
+          "type": "string",
+          "description": "A description that provides more details and context about the Identity."
+        },
+        "identity_class": {
+          "type": "string",
+          "description": "The type of entity that this Identity describes, e.g., an individual or organization.",
+          "enum": [
+            "individual",
+            "group",
+            "system",
+            "organization",
+            "class",
+            "unknown"
+          ]
+        },
+        "sectors": {
+          "type": "array",
+          "description": "The list of sectors that this Identity belongs to.",
+          "items": {
+            "type": "string",
+            "enum": [
+              "agriculture",
+              "aerospace",
+              "automotive",
+              "chemical",
+              "commercial",
+              "communications",
+              "construction",
+              "defense",
+              "education",
+              "energy",
+              "engineering",
+              "entertainment",
+              "financial-services",
+              "government",
+              "emergency-services",
+              "government-local",
+              "government-national",
+              "government-public-services",
+              "government-regional",
+              "healthcare",
+              "hospitality-leisure",
+              "infrastructure",
+              "dams",
+              "nuclear",
+              "water",
+              "insurance",
+              "manufacturing",
+              "mining",
+              "non-profit",
+              "pharmaceuticals",
+              "retail",
+              "technology",
+              "telecommunications",
+              "transportation",
+              "utilities"
+            ]
+          },
+          "minItems": 1
+        },
+        "contact_information": {
+          "type": "string",
+          "description": "The contact information (e-mail, phone number, etc.) for this Identity."
+        }
+      },
+      "required": ["name"]
+    },
+    "incident": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name used to identify the Incident."
+        },
+        "description": {
+          "type": "string",
+          "description": "A description that provides more details and context about the Incident."
+        }
+      },
+      "required": ["name"]
+    },
+    "infrastructure": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name used to identify the Infrastructure."
+        },
+        "description": {
+          "type": "string",
+          "description": "A description that provides more details and context about this Infrastructure, including its purpose and key characteristics."
+        },
+        "infrastructure_types": {
+          "type": "array",
+          "description": "Specifies the type of infrastructure.",
+          "items": {
+            "type": "string",
+            "enum": [
+              "amplification",
+              "anonymization",
+              "botnet",
+              "command-and-control",
+              "exfiltration",
+              "hosting-malware",
+              "hosting-target-lists",
+              "phishing",
+              "reconnaissance",
+              "staging",
+              "unknown"
+            ]
+          },
+          "minItems": 1
+        },
+        "aliases": {
+          "type": "array",
+          "description": "Alternative names used to identify this Infrastructure.",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        },
+        "kill_chain_phases": {
+          "type": "array",
+          "description": "The list of kill chain phases for which this infrastructure is used.",
+          "items": {
+            "type": "object",
+            "properties": {
+              "kill_chain_name": {
+                "type": "string",
+                "description": "The name of the kill chain."
+              },
+              "phase_name": {
+                "type": "string",
+                "description": "The name of the kill chain phase."
+              }
+            },
+            "required": ["kill_chain_name", "phase_name"]
+          },
+          "minItems": 1
+        },
+        "first_seen": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The time that this infrastructure was first seen performing malicious activities."
+        },
+        "last_seen": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The time that this infrastructure was last seen performing malicious activities."
+        }
+      },
+      "required": ["name"]
+    },
+    "location": {
+      "type": "object",
+      "properties": {
+        "description": {
+          "type": "string",
+          "description": "A textual description of the Location."
+        },
+        "name": {
+          "type": "string",
+          "description": "A name used to identify the Location."
+        },
+        "latitude": {
+          "type": "number",
+          "description": "The latitude of the Location in decimal degrees.",
+          "minimum": -90,
+          "maximum": 90
+        },
+        "longitude": {
+          "type": "number",
+          "description": "The longitude of the Location in decimal degrees.",
+          "minimum": -180,
+          "maximum": 180
+        },
+        "precision": {
+          "type": "number",
+          "description": "Defines the precision of the coordinates specified by the latitude and longitude properties, measured in meters."
+        },
+        "region": {
+          "type": "string",
+          "description": "The region that this Location describes."
+        },
+        "country": {
+          "type": "string",
+          "description": "The country that this Location describes."
+        },
+        "administrative_area": {
+          "type": "string",
+          "description": "The state, province, or other sub-national administrative area that this Location describes."
+        },
+        "city": {
+          "type": "string",
+          "description": "The city that this Location describes."
+        },
+        "street_address": {
+          "type": "string",
+          "description": "The street address that this Location describes."
+        },
+        "postal_code": {
+          "type": "string",
+          "description": "The postal code for this Location."
+        }
+      },
+      "required": ["type", "id"],
+      "dependencies": {
+        "precision": ["latitude", "longitude"]
+      },
+      "anyOf": [
+        { "required": ["region"] },
+        { "required": ["country"] },
+        { "required": ["latitude", "longitude"] }
+      ]
+    },
+    "malware-analysis": {
+      "type": "object",
+      "properties": {
+        "created_by_ref": {
+          "type": "string",
+          "description": "The identifier of the entity that created this Malware Analysis object.",
+          "pattern": "^identity--"
+        },
+        "created": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The timestamp when this Malware Analysis object was created."
+        },
+        "modified": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The timestamp when this Malware Analysis object was last modified."
+        },
+        "version": {
+          "type": "string",
+          "description": "The version of the Malware Analysis."
+        },
+        "submitted": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The timestamp when the malware sample was submitted for analysis."
+        },
+        "analysis_started": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The timestamp when the analysis started."
+        },
+        "analysis_ended": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The timestamp when the analysis ended."
+        },
+        "result": {
+          "type": "string",
+          "description": "The final result of the analysis."
+        },
+        "product": {
+          "type": "string",
+          "description": "The name of the product used to perform the analysis."
+        },
+        "configuration_version": {
+          "type": "string",
+          "description": "The version of the configuration used in the analysis."
+        },
+        "modules": {
+          "type": "array",
+          "description": "The list of modules used in the analysis.",
+          "items": { "type": "string" }
+        },
+        "analysis_engine_version": {
+          "type": "string",
+          "description": "The version of the analysis engine used."
+        },
+        "analysis_definition_version": {
+          "type": "string",
+          "description": "The version of the analysis definitions used."
+        },
+        "submitted_by_ref": {
+          "type": "string",
+          "description": "The reference to the identity that submitted the malware sample.",
+          "pattern": "^identity--"
+        }
+      },
+      "required": [
+        "version",
+        "submitted",
+        "analysis_started",
+        "analysis_ended",
+        "result",
+        "created_by_ref"
+      ]
+    },
+    "note": {
+      "type": "object",
+      "properties": {
+        "abstract": {
+          "type": "string",
+          "description": "A brief summary of the note."
+        },
+        "content": {
+          "type": "string",
+          "description": "The content of the note."
+        },
+        "authors": {
+          "type": "array",
+          "description": "The name of the author(s) of this note (e.g., the analyst(s) that created it).",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        },
+        "object_refs": {
+          "type": "array",
+          "description": "The STIX Objects (SDOs and SROs) that the note is being applied to.",
+          "items": {
+            "type": "string",
+            "pattern": "^(attack-pattern|campaign|course-of-action|grouping|identity|indicator|intrusion-set|location|malware|malware-analysis|note|observed-data|opinion|report|threat-actor|tool|vulnerability)--"
+          },
+          "minItems": 1
+        }
+      },
+      "required": ["content", "object_refs"]
+    },
+    "opinion": {
+      "type": "object",
+      "properties": {
+        "explanation": {
+          "type": "string",
+          "description": "An explanation of why the producer has this Opinion."
+        },
+        "authors": {
+          "type": "array",
+          "description": "The name of the author(s) of this opinion (e.g., the analyst(s) that created it).",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        },
+        "object_refs": {
+          "type": "array",
+          "description": "The STIX Objects (SDOs and SROs) that the opinion is being applied to.",
+          "items": {
+            "type": "string",
+            "pattern": "^(attack-pattern|campaign|course-of-action|grouping|identity|indicator|intrusion-set|location|malware|malware-analysis|note|observed-data|opinion|report|threat-actor|tool|vulnerability)--"
+          },
+          "minItems": 1
+        },
+        "opinion": {
+          "type": "string",
+          "description": "The opinion that the producer has about all of the STIX Object(s) listed in the object_refs property.",
+          "enum": [
+            "strongly-disagree",
+            "disagree",
+            "neutral",
+            "agree",
+            "strongly-agree"
+          ]
+        }
+      },
+      "required": ["object_refs", "opinion"]
+    },
+    "report": {
+      "type": "object",
+      "properties": {
+        "report_types": {
+          "type": "array",
+          "description": "This field specifies the primary subject of this report. The suggested values for this field are in the `report-type-ov` list.",
+          "items": {
+            "type": "string",
+            "enum": [
+              "threat-report",
+              "attack-pattern",
+              "campaign",
+              "identity",
+              "indicator",
+              "malware",
+              "observed-data",
+              "threat-actor",
+              "tool",
+              "vulnerability"
+            ]
+          },
+          "minItems": 1
+        },
+        "name": {
+          "type": "string",
+          "description": "The name used to identify the Report."
+        },
+        "description": {
+          "type": "string",
+          "description": "A description that provides more details and context about the Report."
+        },
+        "published": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The date that this report object was officially published by the creator of this report."
+        },
+        "object_refs": {
+          "type": "array",
+          "description": "Specifies the STIX Objects that are referred to by this Report.",
+          "items": {
+            "type": "string",
+            "pattern": "^(attack-pattern|campaign|course-of-action|grouping|identity|indicator|intrusion-set|location|malware|malware-analysis|note|observed-data|opinion|report|threat-actor|tool|vulnerability)--"
+          },
+          "minItems": 1
+        }
+      },
+      "required": ["name", "object_refs", "published"]
+    },
+    "tool": {
+      "type": "object",
+      "properties": {
+        "aliases": {
+          "type": "array",
+          "description": "Alternative names used to identify this Tool.",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        },
+        "tool_types": {
+          "type": "array",
+          "description": "The kind(s) of tool(s) being described.",
+          "items": {
+            "type": "string",
+            "enum": [
+              "denial-of-service",
+              "exploitation",
+              "information-gathering",
+              "network-capture",
+              "credential-exploitation",
+              "remote-access",
+              "vulnerability-scanning",
+              "unknown"
+            ]
+          },
+          "minItems": 1
+        },
+        "name": {
+          "type": "string",
+          "description": "The name used to identify the Tool."
+        },
+        "description": {
+          "type": "string",
+          "description": "Provides more context and details about the Tool object."
+        },
+        "tool_version": {
+          "type": "string",
+          "description": "The version identifier associated with the tool."
+        },
+        "kill_chain_phases": {
+          "type": "array",
+          "description": "The list of kill chain phases for which this Tool instance can be used.",
+          "items": {
+            "type": "object",
+            "properties": {
+              "kill_chain_name": {
+                "type": "string",
+                "description": "The name of the kill chain."
+              },
+              "phase_name": {
+                "type": "string",
+                "description": "The name of the kill chain phase."
+              }
+            },
+            "required": ["kill_chain_name", "phase_name"]
+          },
+          "minItems": 1
+        }
+      },
+      "required": ["name"]
     }
   }
 }
