@@ -1,3 +1,4 @@
+import { AttackPatternProperties, CampaignProperties, CourseOfActionProperties, GroupingProperties, IdentityProperties, IncidentProperties, IndicatorProperties, InfrastructureProperties, IntrusionSetProperties, LocationProperties, MalwareAnalysisProperties, MalwareProperties, NoteProperties, ObservedDataProperties, OpinionProperties, RelationshipProperties, ReportProperties, SightingProperties, ThreatActorProperties, ToolProperties, VulnerabilityProperties } from "./types.js";
 interface StixObjectProperties {
     [key: string]: any;
 }
@@ -12,67 +13,67 @@ declare class StixObject {
     toJSON(): any;
 }
 export declare class Malware extends StixObject {
-    constructor(properties: StixObjectProperties);
+    constructor(properties: MalwareProperties);
 }
 export declare class AttackPattern extends StixObject {
-    constructor(properties: StixObjectProperties);
+    constructor(properties: AttackPatternProperties);
 }
 export declare class IntrusionSet extends StixObject {
-    constructor(properties: StixObjectProperties);
+    constructor(properties: IntrusionSetProperties);
 }
 export declare class ThreatActor extends StixObject {
-    constructor(properties: StixObjectProperties);
+    constructor(properties: ThreatActorProperties);
 }
 export declare class Sighting extends StixObject {
-    constructor(properties: StixObjectProperties);
+    constructor(properties: SightingProperties);
 }
 export declare class Vulnerability extends StixObject {
-    constructor(properties: StixObjectProperties);
+    constructor(properties: VulnerabilityProperties);
 }
 export declare class Indicator extends StixObject {
-    constructor(properties: StixObjectProperties);
+    constructor(properties: IndicatorProperties);
 }
 export declare class ObservedData extends StixObject {
-    constructor(properties: StixObjectProperties);
+    constructor(properties: ObservedDataProperties);
 }
 export declare class Relationship extends StixObject {
-    constructor(properties: StixObjectProperties);
+    constructor(properties: RelationshipProperties);
 }
 export declare class Campaign extends StixObject {
-    constructor(properties: StixObjectProperties);
+    constructor(properties: CampaignProperties);
 }
 export declare class CourseOfAction extends StixObject {
-    constructor(properties: StixObjectProperties);
+    constructor(properties: CourseOfActionProperties);
 }
 export declare class Grouping extends StixObject {
-    constructor(properties: StixObjectProperties);
+    constructor(properties: GroupingProperties);
 }
 export declare class Identity extends StixObject {
-    constructor(properties: StixObjectProperties);
+    constructor(properties: IdentityProperties);
 }
 export declare class Incident extends StixObject {
-    constructor(properties: StixObjectProperties);
+    constructor(properties: IncidentProperties);
 }
 export declare class Infrastructure extends StixObject {
-    constructor(properties: StixObjectProperties);
+    constructor(properties: InfrastructureProperties);
 }
 export declare class Location extends StixObject {
-    constructor(properties: StixObjectProperties);
+    constructor(properties: LocationProperties);
 }
 export declare class MalwareAnalysis extends StixObject {
-    constructor(properties: StixObjectProperties);
+    constructor(properties: MalwareAnalysisProperties);
 }
 export declare class Note extends StixObject {
-    constructor(properties: StixObjectProperties);
+    constructor(properties: NoteProperties);
 }
 export declare class Opinion extends StixObject {
-    constructor(properties: StixObjectProperties);
+    constructor(properties: OpinionProperties);
 }
 export declare class Report extends StixObject {
-    constructor(properties: StixObjectProperties);
+    constructor(properties: ReportProperties);
 }
 export declare class Tool extends StixObject {
-    constructor(properties: StixObjectProperties);
+    constructor(properties: ToolProperties);
 }
 export declare class Bundle {
     type: string;

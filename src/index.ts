@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from "uuid";
 import { validateStixObject } from "./validateStix.js";
-
+import {AttackPatternProperties, CampaignProperties, CourseOfActionProperties, GroupingProperties, IdentityProperties, IncidentProperties, IndicatorProperties, InfrastructureProperties, IntrusionSetProperties, LocationProperties, MalwareAnalysisProperties, MalwareProperties, NoteProperties, ObservedDataProperties, OpinionProperties, RelationshipProperties, ReportProperties, SightingProperties, ThreatActorProperties, ToolProperties, VulnerabilityProperties} from "./types.js"
 interface StixObjectProperties {
   [key: string]: any;
 }
@@ -50,127 +50,127 @@ class StixObject {
 }
 
 export class Malware extends StixObject {
-  constructor(properties: StixObjectProperties) {
+  constructor(properties: MalwareProperties) {
     super("malware", properties);
   }
 }
 
 export class AttackPattern extends StixObject {
-  constructor(properties: StixObjectProperties) {
+  constructor(properties: AttackPatternProperties) {
     super("attack-pattern", properties);
   }
 }
 
 export class IntrusionSet extends StixObject {
-  constructor(properties: StixObjectProperties) {
+  constructor(properties: IntrusionSetProperties) {
     super("intrusion-set", properties);
   }
 }
 
 export class ThreatActor extends StixObject {
-  constructor(properties: StixObjectProperties) {
+  constructor(properties: ThreatActorProperties) {
     super("threat-actor", properties);
   }
 }
 
 export class Sighting extends StixObject {
-  constructor(properties: StixObjectProperties) {
+  constructor(properties: SightingProperties) {
     super("sighting", properties);
   }
 }
 
 export class Vulnerability extends StixObject {
-  constructor(properties: StixObjectProperties) {
+  constructor(properties: VulnerabilityProperties) {
     super("vulnerability", properties);
   }
 }
 
 export class Indicator extends StixObject {
-  constructor(properties: StixObjectProperties) {
+  constructor(properties: IndicatorProperties) {
     super("indicator", properties);
   }
 }
 
 export class ObservedData extends StixObject {
-  constructor(properties: StixObjectProperties) {
+  constructor(properties: ObservedDataProperties) {
     super("observed-data", properties);
   }
 }
 
 export class Relationship extends StixObject {
-  constructor(properties: StixObjectProperties) {
+  constructor(properties: RelationshipProperties) {
     super("relationship", properties);
   }
 }
 
 export class Campaign extends StixObject {
-  constructor(properties: StixObjectProperties) {
+  constructor(properties: CampaignProperties) {
     super("campaign", properties);
   }
 }
 
 export class CourseOfAction extends StixObject {
-  constructor(properties: StixObjectProperties) {
+  constructor(properties: CourseOfActionProperties) {
     super("course-of-action", properties);
   }
 }
 
 export class Grouping extends StixObject {
-  constructor(properties: StixObjectProperties) {
+  constructor(properties: GroupingProperties) {
     super("grouping", properties);
   }
 }
 
 export class Identity extends StixObject {
-  constructor(properties: StixObjectProperties) {
+  constructor(properties: IdentityProperties) {
     super("identity", properties);
   }
 }
 
 export class Incident extends StixObject {
-  constructor(properties: StixObjectProperties) {
+  constructor(properties: IncidentProperties) {
     super("incident", properties);
   }
 }
 
 export class Infrastructure extends StixObject {
-  constructor(properties: StixObjectProperties) {
+  constructor(properties: InfrastructureProperties) {
     super("infrastructure", properties);
   }
 }
 
 export class Location extends StixObject {
-  constructor(properties: StixObjectProperties) {
+  constructor(properties: LocationProperties) {
     super("location", properties);
   }
 }
 
 export class MalwareAnalysis extends StixObject {
-  constructor(properties: StixObjectProperties) {
+  constructor(properties: MalwareAnalysisProperties) {
     super("malware-analysis", properties);
   }
 }
 
 export class Note extends StixObject {
-  constructor(properties: StixObjectProperties) {
+  constructor(properties: NoteProperties) {
     super("note", properties);
   }
 }
 
 export class Opinion extends StixObject {
-  constructor(properties: StixObjectProperties) {
+  constructor(properties: OpinionProperties) {
     super("opinion", properties);
   }
 }
 
 export class Report extends StixObject {
-  constructor(properties: StixObjectProperties) {
+  constructor(properties: ReportProperties) {
     super("report", properties);
   }
 }
 
 export class Tool extends StixObject {
-  constructor(properties: StixObjectProperties) {
+  constructor(properties: ToolProperties) {
     super("tool", properties);
   }
 }

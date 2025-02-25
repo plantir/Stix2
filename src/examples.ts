@@ -21,7 +21,6 @@ import {
     Identity, 
     Infrastructure
 } from './index.js';
-
 let malware = new Malware({
     name: "WannaCry",
     is_family: true,
@@ -47,8 +46,6 @@ let malware = new Malware({
   let vulnerability = new Vulnerability({
     name: "CVE-2021-12345",
     description: "Remote code execution vulnerability in XYZ software.",
-    cvss_score: 9.8,
-    source: "https://cve.mitre.org",
   });
   
   let indicator = new Indicator({
@@ -56,7 +53,6 @@ let malware = new Malware({
       "[file:hashes.'SHA-256' = 'c3d1af78c8fa1bd0a2768b9294b3d60b8d3b800fda2fbfe531f0c2e3f1c15e33']",
     pattern_type: "stix",
     valid_from: "2025-02-18T00:00:00Z",
-    labels: ["malicious", "file"],
     description: "Indicator for a specific malware hash.",
   });
   
@@ -90,20 +86,14 @@ let malware = new Malware({
   let campaign = new Campaign({
     name: "Campaign #1",
     description: "A series of attacks targeting critical infrastructure.",
-    start: "2025-02-01T00:00:00Z",
-    stop: "2025-02-20T00:00:00Z",
+    first_seen: "2025-02-01T00:00:00Z",
+    last_seen: "2025-02-20T00:00:00Z",
     objective: "Disrupt energy systems",
-    threat_actors: [threatActor.id],
   });
   
   let courseOfAction = new CourseOfAction({
     name: "Mitigation #1",
     description: "Deploy additional security measures to protect against the attack pattern.",
-    action_type: "mitigation",
-    recommendations: [
-      "Upgrade firewall settings",
-      "Enforce multi-factor authentication",
-    ],
   });
   
   let grouping = new Grouping({
@@ -137,13 +127,9 @@ let malware = new Malware({
   
   
   let malwareAnalysis = new MalwareAnalysis({
-    malware: malware.id,
     analysis_started: "2025-02-18T00:00:00Z",
     analysis_ended: "2025-02-20T00:00:00Z",
     result: "malicious",
-    analysis_type: "static",
-    observed_samples: [malware.id],
-    techniques: [attackPattern.id],
     version: "2.1",  
     submitted: "2025-02-18T00:00:00Z",  
     created_by_ref: identity.id,  
